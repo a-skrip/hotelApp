@@ -45,11 +45,10 @@
     <!-- Таблица отелей -->
     <table class="table table-striped">
         <thead>
-        <tr>
-            <th>ID</th>
-            <th>Название</th>
-            <th>Звезды</th>
-            <th>Действия</th>
+        <th>ID</th>
+        <th>Название</th>
+        <th>Звезды</th>
+        <th>Действия</th>
         </tr>
         </thead>
         <tbody>
@@ -57,9 +56,14 @@
             <td th:text="${hotel.id}">1</td>
             <td th:text="${hotel.name}">Отель</td>
             <td>
-                <span th:each="i : ${#numbers.sequence(1, hotel.stars)}">★</span>
-                <span th:each="i : ${#numbers.sequence(hotel.stars + 1, 5)}">☆</span>
-                <span th:text="' (' + ${hotel.stars} + ')'"></span>
+                <!-- Обертка для звезд одного отеля -->
+                <span class="stars-wrapper">
+                <span th:each="i : ${#numbers.sequence(1, 5)}">
+                    <span th:if="${i <= hotel.stars}" class="star-filled">★</span>
+                    <span th:unless="${i <= hotel.stars}" class="star-empty">☆</span>
+                </span>
+            </span>
+                <span th:text="' (' + ${hotel.stars} + ')'" class="stars-count"></span>
             </td>
             <td>
                 <a th:href="@{/api/v1/hotels/{id}(id=${hotel.id})}" class="btn btn-info btn-sm">Просмотр</a>
