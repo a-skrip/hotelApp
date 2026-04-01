@@ -16,24 +16,24 @@
             <h3 class="card-title">Добавить новый отель</h3>
         </div>
         <div class="card-body">
-            <form th:action="@{/api/v1/hotel}" method="post" th:object="${newHotel}">
+            <form action="/api/v1/hotels" method="post">
                 <div class="row">
                     <div class="col-md-4">
                         <div class="mb-3">
                             <label for="name" class="form-label">Название отеля</label>
-                            <input type="text" class="form-control" id="name" th:field="*{name}" required>
+                            <input type="text" class="form-control" id="name" name="name" required>
                         </div>
                     </div>
                     <div class="col-md-2">
                         <div class="mb-3">
                             <label for="stars" class="form-label">Количество звезд</label>
-                            <input type="number" class="form-control" id="stars" th:field="*{stars}" min="1" max="5">
+                            <input type="number" class="form-control" id="stars" name="stars" min="1" max="5" required>
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="mb-3">
                             <label for="description" class="form-label">Описание</label>
-                            <textarea class="form-control" id="description" th:field="*{description}" rows="1"></textarea>
+                            <textarea class="form-control" id="description" name="description" rows="1"></textarea>
                         </div>
                     </div>
                 </div>
@@ -43,7 +43,7 @@
     </div>
 
     <!-- Таблица отелей -->
-    <table class="table">
+    <table class="table table-striped">
         <thead>
         <tr>
             <th>ID</th>
@@ -54,11 +54,15 @@
         </thead>
         <tbody>
         <tr th:each="hotel : ${hotels}">
-            <td th:text="${hotel.id}"></td>
-            <td th:text="${hotel.name}"></td>
-            <td th:text="${hotel.stars}">&#9733;</td>
+            <td th:text="${hotel.id}">1</td>
+            <td th:text="${hotel.name}">Отель</td>
             <td>
-                <a th:href="@{/api/v1/hotel/{id}(id=${hotel.id})}" class="btn btn-info btn-sm">Просмотр</a>
+                <span th:each="i : ${#numbers.sequence(1, hotel.stars)}">★</span>
+                <span th:each="i : ${#numbers.sequence(hotel.stars + 1, 5)}">☆</span>
+                <span th:text="' (' + ${hotel.stars} + ')'"></span>
+            </td>
+            <td>
+                <a th:href="@{/api/v1/hotels/{id}(id=${hotel.id})}" class="btn btn-info btn-sm">Просмотр</a>
                 <button th:onclick="'deleteHotel(' + ${hotel.id} + ')'" class="btn btn-danger btn-sm">Удалить</button>
             </td>
         </tr>
@@ -70,10 +74,17 @@
 <script>
     function deleteHotel(id) {
         if (confirm('Вы уверены, что хотите удалить этот отель?')) {
-            fetch('/api/v1/hotel/' + id, {
+            fetch('/api/v1/hotels/' + id, {
                 method: 'DELETE'
-            }).then(() => {
-                window.location.reload();
+            }).then(response => {
+                if (response.ok) {
+                    window.location.reload();
+                } else {
+                    alert('Ошибка при удалении отеля');
+                }
+            }).catch(error => {
+                console.error('Error:', error);
+                alert('Ошибка при удалении отеля');
             });
         }
     }

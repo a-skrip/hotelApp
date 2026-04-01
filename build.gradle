@@ -1,5 +1,7 @@
 plugins {
     id("java")
+    id("org.springframework.boot") version "3.2.12"
+    id("io.spring.dependency-management") version "1.1.6"
 }
 
 group = "ru.skriplex"
@@ -11,14 +13,18 @@ repositories {
 
 
 dependencies {
-    implementation("org.springframework.boot:spring-boot-starter-web:3.2.12")
-    implementation("org.springframework.boot:spring-boot-starter-data-jpa:3.2.12")
+    // Spring Boot Starters
+    implementation("org.springframework.boot:spring-boot-starter-web")
+    implementation("org.springframework.boot:spring-boot-starter-data-jpa")
+    implementation("org.springframework.boot:spring-boot-starter-thymeleaf")
 
 //    implementation("org.liquibase:liquibase-core:4.32.0")
     implementation("org.postgresql:postgresql:42.7.10")
 
-    implementation("org.thymeleaf:thymeleaf:3.1.2.RELEASE")
-
+//    implementation("org.thymeleaf:thymeleaf:3.1.2.RELEASE")
+// Lombok
+    compileOnly("org.projectlombok:lombok:1.18.44")
+    annotationProcessor("org.projectlombok:lombok:1.18.44")
     // Для использования Lombok вместе с MapStruct (опционально)
     compileOnly ('org.projectlombok:lombok')
     implementation("org.projectlombok:lombok:1.18.44")
@@ -27,6 +33,9 @@ dependencies {
     // MapStruct
     implementation("org.mapstruct:mapstruct:1.5.5.Final")
     annotationProcessor ('org.mapstruct:mapstruct-processor:1.5.5.Final')
+
+
+    implementation("org.springdoc:springdoc-openapi-starter-common:3.0.2")
 
     testImplementation(platform("org.junit:junit-bom:5.10.0"))
     testImplementation("org.junit.jupiter:junit-jupiter")
