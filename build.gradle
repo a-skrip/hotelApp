@@ -1,0 +1,46 @@
+plugins {
+    id("java")
+}
+
+group = "ru.skriplex"
+version = "1.0-SNAPSHOT"
+
+repositories {
+    mavenCentral()
+}
+
+
+dependencies {
+    implementation("org.springframework.boot:spring-boot-starter-web:3.2.12")
+    implementation("org.springframework.boot:spring-boot-starter-data-jpa:3.2.12")
+
+    implementation("org.liquibase:liquibase-core:4.32.0")
+    implementation("org.postgresql:postgresql:42.7.10")
+
+    implementation("org.thymeleaf:thymeleaf:3.1.2.RELEASE")
+
+    // Для использования Lombok вместе с MapStruct (опционально)
+    compileOnly ('org.projectlombok:lombok')
+    implementation("org.projectlombok:lombok:1.18.44")
+    annotationProcessor ('org.projectlombok:lombok-mapstruct-binding:0.2.0') // Интеграция Lombok с MapStruct
+
+    // MapStruct
+    implementation("org.mapstruct:mapstruct:1.5.5.Final")
+    annotationProcessor ('org.mapstruct:mapstruct-processor:1.5.5.Final')
+
+    testImplementation(platform("org.junit:junit-bom:5.10.0"))
+    testImplementation("org.junit.jupiter:junit-jupiter")
+    testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+}
+
+tasks.test {
+    useJUnitPlatform()
+}
+
+// Настройка для корректной работы MapStruct с Lombok
+tasks.withType(JavaCompile) {
+    options.compilerArgs = [
+            '-Amapstruct.defaultComponentModel=spring',  // Использовать Spring компонентную модель
+            '-Amapstruct.unmappedTargetPolicy=IGNORE'     // Игнорировать unmapped свойства
+    ]
+}
