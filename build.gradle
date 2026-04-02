@@ -21,21 +21,23 @@ dependencies {
 //    implementation("org.liquibase:liquibase-core:4.32.0")
     implementation("org.postgresql:postgresql:42.7.10")
 
-//    implementation("org.thymeleaf:thymeleaf:3.1.2.RELEASE")
+    implementation("org.thymeleaf:thymeleaf:3.1.2.RELEASE")
 // Lombok
     compileOnly("org.projectlombok:lombok:1.18.44")
     annotationProcessor("org.projectlombok:lombok:1.18.44")
+
+//    implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:3.0.2")
+// Source: https://mvnrepository.com/artifact/org.springdoc/springdoc-openapi-starter-webmvc-ui
+    implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.5.0")
     // Для использования Lombok вместе с MapStruct (опционально)
-    compileOnly ('org.projectlombok:lombok')
-    implementation("org.projectlombok:lombok:1.18.44")
-    annotationProcessor ('org.projectlombok:lombok-mapstruct-binding:0.2.0') // Интеграция Lombok с MapStruct
+    annotationProcessor('org.projectlombok:lombok-mapstruct-binding:0.2.0') // Интеграция Lombok с MapStruct
 
     // MapStruct
     implementation("org.mapstruct:mapstruct:1.5.5.Final")
-    annotationProcessor ('org.mapstruct:mapstruct-processor:1.5.5.Final')
+    annotationProcessor('org.mapstruct:mapstruct-processor:1.5.5.Final')
 
 
-    implementation("org.springdoc:springdoc-openapi-starter-common:3.0.2")
+
 
     testImplementation(platform("org.junit:junit-bom:5.10.0"))
     testImplementation("org.junit.jupiter:junit-jupiter")
