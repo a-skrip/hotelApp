@@ -1,6 +1,7 @@
 package ru.skriplex.springhotelapplication.controller;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -9,6 +10,7 @@ import ru.skriplex.springhotelapplication.model.HotelModel;
 import ru.skriplex.springhotelapplication.service.HotelService;
 
 
+@Slf4j
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/hotels")
@@ -50,3 +52,4 @@ public class HotelWebController {
         return "OK";
     }
 }
+

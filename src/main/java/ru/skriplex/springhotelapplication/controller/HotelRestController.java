@@ -1,14 +1,18 @@
 package ru.skriplex.springhotelapplication.controller;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import ru.skriplex.springhotelapplication.dto.Response;
+import ru.skriplex.springhotelapplication.exception.HotelNotFoundException;
 import ru.skriplex.springhotelapplication.model.HotelModel;
 import ru.skriplex.springhotelapplication.service.HotelService;
 
 import java.util.List;
 
+@Slf4j
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("api/v2/hotels")
@@ -44,5 +48,11 @@ public class HotelRestController {
     public ResponseEntity<?> deleteHotelById(@PathVariable("id") Long id) {
         service.delete(id);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
+    }
+
+    @ExceptionHandler(HotelNotFoundException.class)
+    ResponseEntity<?> handleExceptionHotelNotFound(HotelNotFoundException ex) {
+        log.error("HotelNotFoundException: {}", ex.getMessage());
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new Response(ex.getMessage()));
     }
 }
