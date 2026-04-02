@@ -1,5 +1,8 @@
 package ru.skriplex.springhotelapplication.controller;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -14,6 +17,7 @@ import ru.skriplex.springhotelapplication.service.HotelService;
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/hotels")
+@Tag(name = "WebController",description = "WEB-версияm")
 public class HotelWebController {
 
     private final HotelService service;
@@ -36,6 +40,9 @@ public class HotelWebController {
         return "redirect:/api/v1/hotels";
     }
 
+    @Operation(summary = "Обновление данных отеля по id")
+    @ApiResponse(responseCode = "200", description = "Возврат объекта")
+    @ApiResponse(responseCode = "404", description = "Если объект не найден по id")
     @PutMapping("/{id}")
     @ResponseBody
     public ResponseEntity<HotelModel> updateHotel(
@@ -45,6 +52,9 @@ public class HotelWebController {
         return ResponseEntity.ok(service.update(model));
     }
 
+    @Operation(summary = "Удаление отеля по id")
+    @ApiResponse(responseCode = "204", description = "После удаления")
+    @ApiResponse(responseCode = "404", description = "Если объект не найден по id")
     @DeleteMapping("/{id}")
     @ResponseBody
     public String deleteHotelById(@PathVariable("id") Long id) {

@@ -1,4 +1,4 @@
-package ru.skriplex.springhotelapplication.dto;
+package ru.skriplex.springhotelapplication.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
