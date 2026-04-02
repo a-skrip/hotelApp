@@ -1,12 +1,12 @@
 server:
   port: 8080
-logging:
-  #  level:
-  #    liquibase: DEBUG
+  #logging:
+  #    level:
+  #      liquibase: DEBUG
   #    org.springframework.boot: DEBUG
-  level:
-    ru.skriplex.springhotelapplication:
-      debug
+#  level:
+#    ru.skriplex.springhotelapplication:
+#      debug
 
 spring:
   datasource:
@@ -14,7 +14,6 @@ spring:
     username: hoteluser
     password: hotelpass
     driver-class-name: org.postgresql.Driver
-
 
   jpa:
     database-platform: org.hibernate.dialect.PostgreSQLDialect
