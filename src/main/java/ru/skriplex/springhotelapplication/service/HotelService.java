@@ -5,7 +5,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.skriplex.springhotelapplication.entity.Hotel;
-import ru.skriplex.springhotelapplication.exception.HotelIsExistException;
 import ru.skriplex.springhotelapplication.exception.HotelNotFoundException;
 import ru.skriplex.springhotelapplication.mapper.HotelMapper;
 import ru.skriplex.springhotelapplication.model.HotelModel;
@@ -18,11 +17,12 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 @Transactional
-public class HotelService {
+public class HotelService implements CRUDServices<HotelModel> {
 
     private final HotelRepository repository;
     private final HotelMapper mapper;
 
+    @Override
     public List<HotelModel> getAll() {
         List<Hotel> all = repository.findAll();
         return all.stream()
@@ -30,12 +30,14 @@ public class HotelService {
                 .toList();
     }
 
+    @Override
     public HotelModel getById(Long id) {
         return repository.findById(id)
                 .map(mapper::toModel)
                 .orElseThrow(() -> new HotelNotFoundException(String.format("Отель с id: %d не найден", id)));
     }
 
+    @Override
     public HotelModel create(HotelModel model) {
         Hotel entity = mapper.toEntity(model);
         entity.setCreationDate(Instant.now());
@@ -43,12 +45,12 @@ public class HotelService {
         return mapper.toModel(entity);
     }
 
+    @Override
     public HotelModel update(HotelModel model) {
         Long hotelId = model.getId();
-        String nameHotel = model.getName();
         Hotel entity = repository.findById(hotelId)
                 .orElseThrow(() -> new HotelNotFoundException(String.format("Отель с id: %d не найден", hotelId)));
-        entity.setName(nameHotel);
+        entity.setName(model.getName());
         entity.setDescription(model.getDescription());
         entity.setStars(model.getStars());
         entity.setUpdatedDate(Instant.now());

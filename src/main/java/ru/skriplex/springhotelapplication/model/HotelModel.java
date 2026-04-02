@@ -1,7 +1,6 @@
 package ru.skriplex.springhotelapplication.model;
 
 import lombok.Data;
-import org.springframework.stereotype.Component;
 
 import java.time.Instant;
 
