@@ -20,10 +20,10 @@ spring:
     show-sql: true
     hibernate:
       ddl-auto: none
-  #  liquibase:
-  #    change-log: classpath:db.changelog/1db.changelog-master.yml
-  #    enabled: true
-  #    drop-first: true
+  liquibase:
+      change-log: classpath:db/changelog/db.changelog-master.yaml
+      enabled: true
+      drop-first: false
 #  main:
 #    allow-bean-definition-overriding: true
 #springdoc:
