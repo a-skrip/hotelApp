@@ -24,6 +24,7 @@ public class HotelService implements CRUDServices<HotelModel> {
 
     @Override
     public List<HotelModel> getAll() {
+        log.info("getAll()");
         List<Hotel> all = repository.findAll();
         return all.stream()
                 .map(mapper::toModel)
@@ -32,6 +33,7 @@ public class HotelService implements CRUDServices<HotelModel> {
 
     @Override
     public HotelModel getById(Long id) {
+        log.info("Получение по ID:{}", id);
         return repository.findById(id)
                 .map(mapper::toModel)
                 .orElseThrow(() -> new HotelNotFoundException(String.format("Отель с id: %d не найден", id)));
@@ -39,6 +41,8 @@ public class HotelService implements CRUDServices<HotelModel> {
 
     @Override
     public HotelModel create(HotelModel model) {
+        log.info("POST | name:{}, description:{}, stars{} "
+                , model.getName(), model.getDescription(), model.getStars());
         Hotel entity = mapper.toEntity(model);
         entity.setCreationDate(Instant.now());
         repository.save(entity);
@@ -47,6 +51,7 @@ public class HotelService implements CRUDServices<HotelModel> {
 
     @Override
     public HotelModel update(HotelModel model) {
+        log.info("update - id:{}", model.getId());
         Long hotelId = model.getId();
         Hotel entity = repository.findById(hotelId)
                 .orElseThrow(() -> new HotelNotFoundException(String.format("Отель с id: %d не найден", hotelId)));
@@ -62,6 +67,7 @@ public class HotelService implements CRUDServices<HotelModel> {
         if (!repository.existsById(id)) {
             throw new HotelNotFoundException(String.format("Отель с id: {} не найден" + id));
         }
+        log.info("DELETE id:{}", id);
         repository.deleteById(id);
     }
 }

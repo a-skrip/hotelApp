@@ -1,7 +1,6 @@
 package ru.skriplex.springhotelapplication.controller;
 
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -9,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import ru.skriplex.springhotelapplication.model.HotelModel;
 import ru.skriplex.springhotelapplication.service.HotelService;
 
-@Slf4j
+
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/hotels")
@@ -25,15 +24,12 @@ public class HotelWebController {
 
     @GetMapping("/{id}")
     public String getHotelById(@PathVariable("id") Long id, Model model) {
-        log.info("Получение по ID:{}", id);
         model.addAttribute("hotel", service.getById(id));
         return "hotel";
     }
 
     @PostMapping
     public String createHotel(@ModelAttribute HotelModel model) {
-        log.info("POST | name:{}, description:{}, stars{} "
-                , model.getName(), model.getDescription(), model.getStars());
         service.create(model);
         return "redirect:/api/v1/hotels";
     }
@@ -43,7 +39,6 @@ public class HotelWebController {
     public ResponseEntity<HotelModel> updateHotel(
             @PathVariable("id") Long id,
             @RequestBody HotelModel model) {
-        log.info("PUT - id: {}, hotel: {}", id, model);
         model.setId(id);
         return ResponseEntity.ok(service.update(model));
     }
@@ -51,7 +46,6 @@ public class HotelWebController {
     @DeleteMapping("/{id}")
     @ResponseBody
     public String deleteHotelById(@PathVariable("id") Long id) {
-        log.info("DELETE id:{}", id);
         service.delete(id);
         return "OK";
     }
